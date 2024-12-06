@@ -14,4 +14,8 @@ class Login(APIView):
 
 class UserInfo(APIView):
     def get(self, request):
-        return Response({"code": 0, "data": {"user": "jk", "menus": [3]}})
+        return Response({"code": 0, "data": {"user": "jk", "menus": [{
+            "title": "权限管理",
+            "icon": "user",
+            "child": [{"title": "菜单", "frontpath": "/menu"},{"title": "角色", "frontpath": "/role"},{"title": "用户", "frontpath": "/user"}]
+        }, {"title": "vip管理", "icon": "flag"}]}})
