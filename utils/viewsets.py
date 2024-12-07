@@ -12,6 +12,6 @@ class GenericViewSet(DrfGenericViewSet):
         return response
 
 
-class ModelViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
-                   mixins.CreateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
+class ModelViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
+                   mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.ListModelMixin, GenericViewSet):
     pass

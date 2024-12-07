@@ -123,5 +123,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'UNAUTHENTICATED_USER': None,
-    "UNAUTHENTICATED_TOKEN": None
+    "UNAUTHENTICATED_TOKEN": None,
+    "EXCEPTION_HANDLER": "utils.handlers.exception_handler"
 }
