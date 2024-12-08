@@ -19,4 +19,4 @@ class UserInfo(APIView):
             "icon": "user",
             "child": [{"title": "菜单", "frontpath": "/menu"}, {"title": "角色", "frontpath": "/role"},
                       {"title": "用户", "frontpath": "/user"}]
-        }, {"title": "vip管理", "icon": "flag"}]}})
+        }, {"title": "vip管理", "icon": "flag"}]}})   
