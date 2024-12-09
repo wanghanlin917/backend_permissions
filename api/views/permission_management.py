@@ -3,6 +3,7 @@
 # from rest_framework.viewsets import GenericViewSet
 from rest_framework.views import exception_handler
 from rest_framework.filters import BaseFilterBackend
+from rest_framework.decorators import action
 from rest_framework import serializers
 from api import models
 
@@ -44,3 +45,23 @@ class RouteView(ModelViewSet):
     queryset = models.Router.objects.all()
     serializer_class = RouteSerializer
     filter_backends = [RouterFilterBackend]
+
+
+class PermissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Permission
+        fields = '__all__'
+
+
+class PermissionFilterBackend(BaseFilterBackend):
+    def filter_queryset(self, request, queryset, view):
+        route = request.query_params.get('route')
+        if route:
+            queryset = queryset.filter(router_id=route)
+        return queryset
+
+
+class PermissionView(ModelViewSet):
+    queryset = models.Permission.objects.all()
+    serializer_class = PermissionSerializer
+    filter_backends = [PermissionFilterBackend]
