@@ -1,7 +1,6 @@
 from django.urls import path
 from .views.login import Login, UserInfo
-from .views.permission_management import FolderView, RouteView, PermissionView
-from .views.role import RoleView
+from .views.permission_management import FolderView, RouteView, PermissionView,RoleView
 from rest_framework import routers
 
 router = routers.SimpleRouter(trailing_slash=False)
