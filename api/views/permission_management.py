@@ -1,6 +1,6 @@
 # from rest_framework import exceptions
 # from rest_framework.views import APIView
-# from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import GenericViewSet
 # from rest_framework.views import exception_handler
 from rest_framework.filters import BaseFilterBackend
 from rest_framework.decorators import action
@@ -109,4 +109,22 @@ class RoleViewSerializers(serializers.ModelSerializer):
 class RoleView(ModelViewSet):
     queryset = models.Role.objects.all()
     serializer_class = RoleViewSerializers
-    # @
+
+    @action(detail=True, methods=['get'], url_path='permission', url_name='permission')
+    def permission(self, request, pk):
+        # print("pk参数",pk)
+        instance = self.get_object()
+        permission = instance.permissions.all()
+        permission_list = [item.id for item in permission]
+        # print(permission_list)
+        return Response(permission_list)
+
+    @action(detail=True, methods=['post'], url_path='update/permission', url_name='update_permission')
+    def update_permission(self, request, pk):
+        # 获取权限列表
+        permission_id_list = request.data.get('permissions')
+        print(permission_id_list)
+        # permission_id_list = list(set(permission_id_list))
+        instance = self.get_object()
+        instance.permissions.set(permission_id_list)
+        return Response('ok')
