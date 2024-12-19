@@ -38,6 +38,9 @@ class Role(models.Model):
 
 class Admin(models.Model):
     """用户表"""
-    user = models.CharField(verbose_name="用户名", max_length=32)
+    name = models.CharField(verbose_name="员工姓名", max_length=32)
+    username = models.CharField(verbose_name="登录账号", max_length=32)
+    phoneNumber = models.CharField(verbose_name="联系方式", max_length=11)
     password = models.CharField(verbose_name="密码", max_length=32)
-    roles = models.ManyToManyField(verbose_name="角色",to=Role, blank=True)
+    createTime = models.DateTimeField(verbose_name="创建时间", auto_now_add=True, null=True, blank=True)
+    roles = models.ManyToManyField(verbose_name="角色", to=Role, blank=True)
