@@ -49,9 +49,9 @@ class RouteView(ModelViewSet):
     filter_backends = [RouterFilterBackend]
 
     def perform_destroy(self, instance):
-        if models.Permission.objects.filter(route=instance).exists():
+        if models.Permission.objects.filter(router=instance).exists():
             raise ExtraException("无法删除，请先处理下级数据")
-
+        instance.delete()
 
 class PermissionSerializer(serializers.ModelSerializer):
     class Meta:

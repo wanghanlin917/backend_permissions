@@ -26,6 +26,7 @@ def exception_handler(exc, context):
 
     # 只处理drf相关的异常
     if isinstance(exc, exceptions.APIException):
+        # print('exc',exc)
         headers = {}
         if getattr(exc, 'auth_header', None):
             headers['WWW-Authenticate'] = exc.auth_header
