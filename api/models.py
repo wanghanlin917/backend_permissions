@@ -43,4 +43,4 @@ class Admin(models.Model):
     phoneNumber = models.CharField(verbose_name="联系方式", max_length=11)
     password = models.CharField(verbose_name="密码", max_length=32)
     createTime = models.DateTimeField(verbose_name="创建时间", auto_now_add=True, null=True, blank=True)
-    roles = models.ManyToManyField(verbose_name="角色", to=Role, blank=True)
+    roles = models.ForeignKey(verbose_name="角色", to=Role, on_delete=models.PROTECT)

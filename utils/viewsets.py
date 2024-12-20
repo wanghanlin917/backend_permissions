@@ -9,7 +9,7 @@ class GenericViewSet(DrfGenericViewSet):
         if response.exception:
             return response
         response.data = {'code': 0, 'data': response.data}
-        print("ssss", response.data)
+        # print("ssss", response.data)
         return response
 
 

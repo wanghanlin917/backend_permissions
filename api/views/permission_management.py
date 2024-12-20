@@ -53,6 +53,7 @@ class RouteView(ModelViewSet):
             raise ExtraException("无法删除，请先处理下级数据")
         instance.delete()
 
+
 class PermissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Permission
@@ -128,3 +129,27 @@ class RoleView(ModelViewSet):
         instance = self.get_object()
         instance.permissions.set(permission_id_list)
         return Response('ok')
+
+
+class AdminRoleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Role
+        fields = ['id', 'title']
+
+
+class AdminSerializer(serializers.ModelSerializer):
+    roles_display = AdminRoleSerializer(source='roles')
+
+    class Meta:
+        model = models.Admin
+        fields = ['id', 'name', 'username', 'phoneNumber', 'createTime', 'roles', 'roles_display']
+
+    def validate(self, attrs):
+        print("参数", attrs)
+        return attrs
+
+
+class AdminView(ModelViewSet):
+    pass
+    queryset = models.Admin.objects.all()
+    serializer_class = AdminSerializer
