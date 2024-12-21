@@ -150,6 +150,5 @@ class AdminSerializer(serializers.ModelSerializer):
 
 
 class AdminView(ModelViewSet):
-    pass
     queryset = models.Admin.objects.all()
     serializer_class = AdminSerializer
