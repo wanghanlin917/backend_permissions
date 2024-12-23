@@ -131,6 +131,15 @@ class RoleView(ModelViewSet):
         return Response('ok')
 
 
+from rest_framework.pagination import PageNumberPagination
+
+
+# from rest_framework.mixins import ListModelMixin
+
+class AdminPaginator(PageNumberPagination):
+    page_size = 2
+
+
 class AdminRoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Role
@@ -138,11 +147,13 @@ class AdminRoleSerializer(serializers.ModelSerializer):
 
 
 class AdminSerializer(serializers.ModelSerializer):
-    roles_display = AdminRoleSerializer(source='roles')
-
+    roles_display = AdminRoleSerializer(source='roles', read_only=True)
+    createTime = serializers.DateTimeField(format='%Y-%m-%d %H:%M',read_only=True)
     class Meta:
         model = models.Admin
-        fields = ['id', 'name', 'username', 'phoneNumber', 'createTime', 'roles', 'roles_display']
+        fields = ['id', 'name', 'username', 'password', 'phoneNumber', 'createTime', 'roles', 'roles_display']
+
+    extra_kwargs = {'password': {'write_only': True}}
 
     def validate(self, attrs):
         print("参数", attrs)
@@ -150,5 +161,6 @@ class AdminSerializer(serializers.ModelSerializer):
 
 
 class AdminView(ModelViewSet):
-    queryset = models.Admin.objects.all()
+    queryset = models.Admin.objects.all().order_by('-id')
     serializer_class = AdminSerializer
+    pagination_class = PageNumberPagination
