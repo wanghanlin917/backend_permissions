@@ -1,6 +1,6 @@
 # from rest_framework import exceptions
 # from rest_framework.views import APIView
-from rest_framework.viewsets import GenericViewSet
+# from rest_framework.viewsets import GenericViewSet
 # from rest_framework.views import exception_handler
 from rest_framework.filters import BaseFilterBackend
 from rest_framework.decorators import action
@@ -8,7 +8,7 @@ from rest_framework import serializers
 from rest_framework.response import Response
 from api import models
 
-from utils.viewsets import ModelViewSet
+from utils.viewsets import ModelViewSet, GenericViewSet
 from utils.handlers import exception_handler
 from utils.exception import ExtraException
 
@@ -132,12 +132,17 @@ class RoleView(ModelViewSet):
 
 
 from rest_framework.pagination import PageNumberPagination
+from utils.mixins import ListPageNumberModelMixin
 
+from rest_framework.mixins import ListModelMixin
 
-# from rest_framework.mixins import ListModelMixin
 
 class AdminPaginator(PageNumberPagination):
-    page_size = 2
+    page = 1,
+    page_size = 5,
+    print(page_size)
+    # page_size_query_param = 'page_size',
+    # max_page_size = 100
 
 
 class AdminRoleSerializer(serializers.ModelSerializer):
@@ -148,7 +153,8 @@ class AdminRoleSerializer(serializers.ModelSerializer):
 
 class AdminSerializer(serializers.ModelSerializer):
     roles_display = AdminRoleSerializer(source='roles', read_only=True)
-    createTime = serializers.DateTimeField(format='%Y-%m-%d %H:%M',read_only=True)
+    createTime = serializers.DateTimeField(format='%Y-%m-%d %H:%M', read_only=True)
+
     class Meta:
         model = models.Admin
         fields = ['id', 'name', 'username', 'password', 'phoneNumber', 'createTime', 'roles', 'roles_display']
@@ -160,7 +166,13 @@ class AdminSerializer(serializers.ModelSerializer):
         return attrs
 
 
-class AdminView(ModelViewSet):
+class AdminView(ListPageNumberModelMixin, GenericViewSet):
     queryset = models.Admin.objects.all().order_by('-id')
     serializer_class = AdminSerializer
-    pagination_class = PageNumberPagination
+    pagination_class = AdminPaginator
+
+    # def get(self, request, *args, **kwargs):
+    #     """
+    #     处理 GET 请求，返回分页结果。
+    #     """
+    #     return self.list(request, *args, **kwargs)
