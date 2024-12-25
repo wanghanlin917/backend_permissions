@@ -1,6 +1,6 @@
 # from rest_framework import exceptions
 # from rest_framework.views import APIView
-# from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import GenericViewSet
 # from rest_framework.views import exception_handler
 from rest_framework.filters import BaseFilterBackend
 from rest_framework.decorators import action
@@ -8,7 +8,7 @@ from rest_framework import serializers
 from rest_framework.response import Response
 from api import models
 
-from utils.viewsets import ModelViewSet, GenericViewSet
+from utils.viewsets import ModelViewSet
 from utils.handlers import exception_handler
 from utils.exception import ExtraException
 
@@ -133,14 +133,15 @@ class RoleView(ModelViewSet):
 
 from rest_framework.pagination import PageNumberPagination
 from utils.mixins import ListPageNumberModelMixin
-
+from rest_framework.mixins import ListModelMixin
+from rest_framework import viewsets
 from rest_framework.mixins import ListModelMixin
 
 
 class AdminPaginator(PageNumberPagination):
-    page = 1,
-    page_size = 5,
-    print(page_size)
+    page = 1
+    page_size = 5
+    # print(page_size)
     # page_size_query_param = 'page_size',
     # max_page_size = 100
 
