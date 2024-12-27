@@ -134,6 +134,8 @@ class RoleView(ModelViewSet):
 from rest_framework.pagination import PageNumberPagination
 from utils.mixins import ListPageNumberModelMixin
 from rest_framework.filters import BaseFilterBackend
+
+
 # from rest_framework.mixins import ListModelMixin
 # from rest_framework import viewsets
 # from rest_framework.mixins import ListModelMixin
@@ -146,8 +148,14 @@ class AdminPaginator(PageNumberPagination):
     # page_size_query_param = 'page_size',
     # max_page_size = 100
 
+
 class AdminFilter(BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
+        username = request.query_params.get('username')
+        print("username", username)
+        if username:
+            queryset = queryset.filter(name=username)
+        return queryset
 
 
 class AdminRoleSerializer(serializers.ModelSerializer):
@@ -175,6 +183,7 @@ class AdminView(ListPageNumberModelMixin, GenericViewSet):
     queryset = models.Admin.objects.all().order_by('-id')
     serializer_class = AdminSerializer
     pagination_class = AdminPaginator
+    filter_backends = [AdminFilter,]
 
     # def get(self, request, *args, **kwargs):
     #     """
