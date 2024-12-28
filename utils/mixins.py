@@ -19,3 +19,4 @@ class ListPageNumberModelMixin:
             "code": 0,
             "data": serializer.data
         })
+
