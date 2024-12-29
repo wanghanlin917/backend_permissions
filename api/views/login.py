@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from api import models
 from rest_framework.mixins import CreateModelMixin
 from utils.viewsets import GenericViewSet
+from utils.exception import ExtraException
 
 from rest_framework.request import Request
 
@@ -28,7 +29,10 @@ class LoginView(CreateModelMixin, GenericViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         print(serializer.data)
-        return Response("....")
+        admin_object = models.Admin.objects.filter(**serializer.data).first()
+        if not admin_object:
+            raise ExtraException("用户名或密码错误", ret_code=9999)
+        return Response({"token": "fyufgegryqrqyt"})
 
 
 class UserInfo(APIView):
@@ -36,6 +40,7 @@ class UserInfo(APIView):
         return Response({"code": 0, "data": {"user": "jk", "menus": [{
             "title": "权限管理",
             "icon": "user",
+            "meta": {"order": 3},
             "child": [{"title": "菜单", "frontpath": "/menu"}, {"title": "角色", "frontpath": "/role"},
                       {"title": "用户", "frontpath": "/user"}]
-        }, {"title": "vip管理", "icon": "flag"}]}})
+        }, {"title": "vip管理", "icon": "flag", "meta": {"order": 2}}, {"title": "hahahaha", "meta": {"order": 1}}]}})
