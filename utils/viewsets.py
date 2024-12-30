@@ -10,7 +10,7 @@ class GenericViewSet(DrfGenericViewSet):
         response = super().finalize_response(request, response, *args, **kwargs)
         if response.exception:
             return response
-        print("dddd", response.data)
+        # print("dddd", response.data)
         response.data = {'code': 0, 'data': response.data}
         # print("ssss", response.data)
         return response
@@ -21,6 +21,4 @@ class ModelViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
     pass
 
 
-# class ModelViewSet(ListPageNumberModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
-#                     mixins.CreateModelMixin, mixins.DestroyModelMixin, GenericViewSet):
-#     pass
+

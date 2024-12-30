@@ -1,6 +1,7 @@
 # from rest_framework import exceptions
 # from rest_framework.views import APIView
-from rest_framework.viewsets import GenericViewSet
+from utils.viewsets import GenericViewSet
+from rest_framework.mixins import CreateModelMixin
 # from rest_framework.views import exception_handler
 from rest_framework.filters import BaseFilterBackend
 from rest_framework.decorators import action
@@ -179,7 +180,7 @@ class AdminSerializer(serializers.ModelSerializer):
         return attrs
 
 
-class AdminView(ListPageNumberModelMixin, GenericViewSet):
+class AdminView(ListPageNumberModelMixin,CreateModelMixin,GenericViewSet):
     queryset = models.Admin.objects.all().order_by('-id')
     serializer_class = AdminSerializer
     pagination_class = AdminPaginator
