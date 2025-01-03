@@ -1,12 +1,15 @@
-# list1 = [1, 2, 3]
-# dict1 = {"id": 1}
-# dict1["permission"] = list1
-# print(dict1)
-# list1.append(4)
-# dict1["id"] = 2
-# dict2 = dict1
-# print(dict2)
+# sk-e7705e49d2b44cbf802d272b93250e70
+from openai import OpenAI
 
-dict2 = {'id': 1, 'name': "jk"}
-print(dict2.values())
-print(type(dict2.values()))
+client = OpenAI(api_key="sk-b81f411c4d7f4f13b1ce97768fdf8b6c", base_url="https://api.deepseek.com/v1")
+
+response = client.chat.completions.create(
+    model="deepseek-chat",
+    messages=[
+        {"role": "system", "content": "你喜欢什么"},
+        # {"role": "user", "content": "你叫什么名字"},
+    ],
+    stream=False
+)
+
+print(response.choices[0].message.content)
