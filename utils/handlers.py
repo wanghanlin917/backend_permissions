@@ -11,7 +11,6 @@ from rest_framework.views import set_rollback
 
 
 def exception_handler(exc, context):
-    print("dddddddddccccc",isinstance(exc, exceptions.APIException))
     if isinstance(exc, Http404):
         exc = exceptions.NotFound()
         exc.ret_code = 1001
