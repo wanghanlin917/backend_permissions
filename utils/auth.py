@@ -5,7 +5,7 @@ from utils.jwt_auth import parse_payload
 from utils.exception import ExtraException
 
 
-class JwtAuthentication(BaseException):
+class JwtAuthentication(BaseAuthentication):
     def authenticate(self, request):
         if request.method == "OPTIONS":
             return

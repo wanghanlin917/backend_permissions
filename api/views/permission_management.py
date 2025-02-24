@@ -114,7 +114,7 @@ class RoleView(ModelViewSet):
 
     @action(detail=True, methods=['get'], url_path='permission', url_name='permission')
     def permission(self, request, pk):
-        # print("pk参数",pk)
+        print("pk参数",pk)
         instance = self.get_object()
         permission = instance.permissions.all()
         permission_list = [item.id for item in permission]
